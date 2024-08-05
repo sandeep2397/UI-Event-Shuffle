@@ -47,7 +47,7 @@ const EventShuffleList: FC<Props> = (props: Props) => {
   const dispatch = useDispatch();
 
   const [bindEventData, setBindMediaData]: any = useState([]);
-  const [uploadedToServer, setMediaUploadToServer]: any = useState(undefined);
+  const [eventAdded, setEventAdded]: any = useState(false);
   const [thumbnailUrl, setThumbnailUrl] = useState<any>(null);
   const [invalidMedia, setInvalidMedia] = useState(false);
   const [mediaDelete, setMediaDelete] = useState(false);
@@ -90,7 +90,7 @@ const EventShuffleList: FC<Props> = (props: Props) => {
       return;
     }
 
-    setMediaUploadToServer(false);
+    setEventAdded(false);
     setInvalidMedia(false);
     setMediaDelete(false);
     setMediaEdit(false);
@@ -503,26 +503,9 @@ const EventShuffleList: FC<Props> = (props: Props) => {
             </div>
           </Grid>
         </Grid>
-        {mediaDelete && (
+        {eventAdded && (
           <Snackbar
-            open={mediaDelete}
-            autoHideDuration={6000}
-            onClose={handleClose}
-            anchorOrigin={{ vertical: "top", horizontal: "left" }}
-          >
-            <Alert
-              onClose={handleClose}
-              variant="filled"
-              sx={{ width: "100%" }}
-              severity="success"
-            >
-              {"Media file deleted successfully"}
-            </Alert>
-          </Snackbar>
-        )}
-        {uploadedToServer && (
-          <Snackbar
-            open={uploadedToServer}
+            open={eventAdded}
             autoHideDuration={6000}
             onClose={handleClose}
             anchorOrigin={{ vertical: "top", horizontal: "left" }}
@@ -533,7 +516,7 @@ const EventShuffleList: FC<Props> = (props: Props) => {
               variant="filled"
               sx={{ width: "100%" }}
             >
-              {`Media File succesfully uploaded to the Server`}
+              {`Event Added successfully`}
             </Alert>
           </Snackbar>
         )}
@@ -575,6 +558,10 @@ const EventShuffleList: FC<Props> = (props: Props) => {
         {state?.isOpenPopup && state?.popupType === "add" && (
           <CreateEvent
             handlePopupClose={(success: boolean) => {
+              if (success) {
+                setEventAdded(true);
+                fetchAllEvents();
+              }
               setState({
                 ...state,
                 isOpenPopup: false,

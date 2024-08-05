@@ -6,11 +6,15 @@ import { FaUpload } from "react-icons/fa";
 import { MdOutlineCancel } from "react-icons/md";
 // import firebase from '../../newfirebaseConfig';
 
+import { Chip } from "@mui/material";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { MdHowToVote } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import CustomDialog from "./components/Dialog/CustomDialog";
 import { commonAction } from "./redux/root_actions";
 import { useGetUserId } from "./utils/customHooks";
+
 interface Props {
   handlePopupClose: (isConfirm?: any, mode?: any, rowData?: any) => void;
 }
@@ -23,21 +27,28 @@ const CreateEvent: FC<Props> = (props: Props) => {
   let initState = {
     name: "",
     imageUrl: "",
-    dates: "",
   };
   const [state, setState] = useState<any>(initState);
+  const [selectedDates, setSelectedDates] = useState<any>([]);
+  const [currentDate, setCurrentDate] = useState(null);
 
   const handleAddEvent = () => {
+    const selectedDatesOnly = selectedDates?.map((date: any) => {
+      const dValue = date?.$d || null;
+      const selDateString = new Date(dValue).toISOString().slice(0, 10);
+      return selDateString;
+    });
     dispatch(
       commonAction({
         data: {
           url: `/api/v1/event/create`,
           options: {
-            method: "PUT",
+            method: "POST",
             body: {
               event: {
-                name: "Tabletop gaming",
-                dates: ["2024-09-11", "2024-09-26"],
+                name: state.name,
+                dates: selectedDatesOnly,
+                imageUrl: state.imageUrl,
               },
             },
           },
@@ -64,15 +75,31 @@ const CreateEvent: FC<Props> = (props: Props) => {
           variant="contained"
           startIcon={<FaUpload />}
           onClick={() => handleAddEvent()}
-          // disabled={mediaFile === null || invalidFileType}
+          disabled={selectedDates?.length === 0 || state.name === ""}
           style={{
             height: "32px",
             marginRight: "8px",
           }}
         >
-          {"Add Vote"}
+          {"Create Event"}
         </Button>
       </DialogActions>
+    );
+  };
+
+  const handleDateChange = (newDate: any) => {
+    const boolVal = selectedDates.some((date: any) => {
+      return date?.$d?.toDateString() === newDate?.$d?.toDateString();
+    });
+    if (newDate && !boolVal) {
+      setSelectedDates([...selectedDates, newDate]);
+    }
+    setCurrentDate(null); // Reset the current date picker value
+  };
+
+  const handleDelete = (dateToDelete: any) => () => {
+    setSelectedDates(
+      selectedDates.filter((date: any) => date !== dateToDelete)
     );
   };
 
@@ -81,7 +108,7 @@ const CreateEvent: FC<Props> = (props: Props) => {
       <Box
         style={{
           display: "grid",
-          gridTemplateColumns: `repeat(3, 1fr)`,
+          gridTemplateColumns: `repeat(2, 1fr)`,
           gap: "20px",
           padding: "20px",
         }}
@@ -118,6 +145,23 @@ const CreateEvent: FC<Props> = (props: Props) => {
             });
           }}
         />
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            label="Select Dates"
+            value={currentDate}
+            onChange={handleDateChange}
+          />
+          <Box mt={2}>
+            {selectedDates.map((date: any, index: number) => (
+              <Chip
+                key={index}
+                label={date?.$d?.toDateString()}
+                onDelete={handleDelete(date)}
+                style={{ margin: "4px" }}
+              />
+            ))}
+          </Box>
+        </LocalizationProvider>
       </Box>
     );
   };

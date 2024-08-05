@@ -80,8 +80,35 @@ const EventDetails: FC<Props> = (props: Props) => {
   };
 
   const footer = () => {
+    const suitableDateInfo = eventData?.suitableDates || {};
+    const peopleList = suitableDateInfo?.people || [];
+    let namesString =
+      peopleList?.length > 0
+        ? peopleList.map((obj: any) => obj.username)?.join(", ")
+        : "";
     return (
-      <DialogActions style={{ height: "30px" }}>
+      <DialogActions style={{ height: "34px" }}>
+        {peopleList?.length > 0 ? (
+          <Typography
+            style={{
+              fontSize: "14px",
+              fontWeight: "bold",
+              padding: "0px 16px",
+              maxWidth: "74%",
+            }}
+            color={"primary"}
+          >
+            {`Most Suitable date for the event of ${props.rowData?.name} is ${suitableDateInfo?.date} 
+          because of the majority and the people who voted are ${namesString}.`}
+          </Typography>
+        ) : (
+          <Typography
+            style={{ fontSize: "16px", fontWeight: 500, padding: "0px 16px" }}
+            color={"primary"}
+          >
+            {`Suitable date is not determined as votes are not casted yet  !!!!`}
+          </Typography>
+        )}
         <Button
           onClick={() => props.handlePopupClose(false)}
           variant="outlined"
@@ -109,9 +136,7 @@ const EventDetails: FC<Props> = (props: Props) => {
   const body = () => {
     const availableDates = props.rowData?.dates || [];
     const eventVotes = eventData?.event?.votes || [];
-    const suitableDateInfo = eventData?.suitableDates || {};
-    const peopleList = suitableDateInfo?.people || [];
-    const namesString = peopleList.map((obj: any) => obj.username).join(", ");
+
     return loading ? (
       <div style={{ padding: "16px" }}>
         <CircularProgress />
@@ -143,9 +168,9 @@ const EventDetails: FC<Props> = (props: Props) => {
                   {" "}
                   <CardHeader
                     title={date}
-                    style={{ fontSize: "14px" }}
+                    style={{ fontSize: "12px", height: "10px" }}
                     action={
-                      <>
+                      <div style={{ marginTop: "-10px" }}>
                         <Checkbox
                           checked={checkList?.[index]}
                           onChange={(event: any) => {
@@ -165,7 +190,7 @@ const EventDetails: FC<Props> = (props: Props) => {
                           }}
                           inputProps={{ "aria-label": "controlled" }}
                         />
-                      </>
+                      </div>
                     }
                   >
                     {" "}
@@ -173,7 +198,6 @@ const EventDetails: FC<Props> = (props: Props) => {
                   <Divider></Divider>
                   <CardContent style={{ padding: "8px" }}>
                     <Typography color="error" style={{ fontWeight: "500" }}>
-                      {" "}
                       {`${desiredDate?.people?.length ?? 0}`}{" "}
                       {` ${
                         desiredDate?.people?.length === 1
@@ -182,6 +206,7 @@ const EventDetails: FC<Props> = (props: Props) => {
                       }`}{" "}
                       who voted before
                     </Typography>
+
                     <ul
                     // style={{
                     //   display: "grid",
@@ -200,13 +225,6 @@ const EventDetails: FC<Props> = (props: Props) => {
             );
           })}
         </div>
-        <Typography
-          style={{ fontSize: "16px", fontWeight: 500, padding: "0px 16px" }}
-          color={"primary"}
-        >
-          {`Most Suitable date for the event of ${props.rowData?.name} is ${suitableDateInfo?.date} 
-          because of the majority and the people who voted are ${namesString}.`}
-        </Typography>
       </>
     );
   };
@@ -220,7 +238,7 @@ const EventDetails: FC<Props> = (props: Props) => {
         transform: "translate(0px, -5%)",
         // ...style,
         // minWidth: '1050px',
-        width: "1050px",
+        width: "1150px",
         height: "495px",
       }}
       bodyStyle={{
