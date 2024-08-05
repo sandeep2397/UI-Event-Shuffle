@@ -2,7 +2,8 @@
 
 This directory is a brief example of a [Create React App](https://github.com/facebook/create-react-app) site that can be deployed to Vercel with zero configuration.
 
-In order to fetch apis from node server you should run Event Shuffle node server seperately on port no 3001.
+In order to fetch apis from node server you should run Event Shuffle node server seperately [http://localhost:3001](http://localhost:3001) on port no 3001.
+you can clone the repository from here [Event-nodeserver](https://github.com/sandeep2397/EventShuffle-nodeserver.git)
 
 ## Available Scripts
 
