@@ -16,14 +16,11 @@ import React, { FC, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import VideoThumbnailGenerator from 'video-thumbnail-generator';
 import "firebase/storage";
-import { deleteObject, getDownloadURL, listAll, ref } from "firebase/storage";
 import "./firebaseConfig";
-import { mediaDb } from "./firebaseConfig";
 import { commonAction, setCachedEventShuffleList } from "./redux/root_actions";
 // import LongMenu from '../../menu/MenuList';
 import InputBase from "@mui/material/InputBase";
 import Paper from "@mui/material/Paper";
-import Scrollbars from "react-custom-scrollbars";
 import { FaSearch, FaUpload } from "react-icons/fa";
 import { MdClose, MdHowToVote, MdPermMedia } from "react-icons/md";
 import CreateEvent from "./CreateEvent";
@@ -131,33 +128,6 @@ const EventShuffleList: FC<Props> = (props: Props) => {
     setMediaLoading(true);
     fetchAllEvents();
   }, []);
-
-  const handleDelete = async (mediaInfo: any) => {
-    setDeleteSingleMedia({
-      ...mediaInfo,
-      shouldDelete: true,
-    });
-    try {
-      // setMediaLoading(true);
-      const filesList = await listAll(ref(mediaDb, "mediaFiles"));
-
-      const detailsPromises = filesList?.items?.map(async (fileRef: any) => {
-        const downloadUrl = await getDownloadURL(fileRef);
-        if (downloadUrl === mediaInfo?.downloadUrl) {
-          await deleteObject(fileRef);
-          // setMediaDelete(true);
-          fetchAllEvents();
-        }
-      });
-
-      const fileDetails = await Promise.all(detailsPromises);
-      // dispatch(setCachedEventShuffleList(fileDetails));
-
-      // console.log('File deleted successfully');
-    } catch (error) {
-      console.error("Error deleting file:", error);
-    }
-  };
 
   const debounce = (func: any) => {
     let timer: any;
@@ -348,18 +318,7 @@ const EventShuffleList: FC<Props> = (props: Props) => {
                   {/* <CircularProgress /> */}
                 </div>
               ) : (
-                <Scrollbars
-                  className="custom-scrollbar"
-                  autoHide={false}
-                  hideTracksWhenNotNeeded={false}
-                  autoHeight={false}
-                  style={{
-                    height: window.innerHeight - 140 + "px",
-                    // width: isLargeScreen ? '2000px' : width + 'px',
-                    // width: '97vw',
-                  }}
-                  // autoHeightMax={'calc(100vh - 140px)'}
-                >
+                <>
                   <div className="card-container">
                     {Array.isArray(bindEventData) &&
                       bindEventData?.map((storedEvent: any) => {
@@ -539,7 +498,7 @@ const EventShuffleList: FC<Props> = (props: Props) => {
 
                       // </div>
                     )}
-                </Scrollbars>
+                </>
               )}
             </div>
           </Grid>
