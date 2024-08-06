@@ -2,6 +2,7 @@ import {
   Alert,
   Button,
   CardHeader,
+  CircularProgress,
   Container,
   Divider,
   Grid,
@@ -315,7 +316,7 @@ const EventShuffleList: FC<Props> = (props: Props) => {
               <Divider />
               {mediaLoading ? (
                 <div style={{ padding: "16px" }}>
-                  {/* <CircularProgress /> */}
+                  <CircularProgress />
                 </div>
               ) : (
                 <>

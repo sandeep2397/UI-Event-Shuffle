@@ -1,6 +1,6 @@
 /*
-©2022 Pivotree | All rights reserved
+Event shuffle
 */
-export const generateTimestamp = ()=>{
-    return new Date().valueOf()
-}
+export const generateTimestamp = () => {
+  return new Date().valueOf();
+};

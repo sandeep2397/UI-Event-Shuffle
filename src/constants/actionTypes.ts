@@ -1,5 +1,5 @@
 /*
-©2022 Pivotree | All rights reserved
+Event shuffle
 */
 // auth
 export const TOGGLE_USER_LOGIN = "TOGGLE_USER_LOGIN";

@@ -1,7 +1,4 @@
-/*
-©2022 Pivotree | All rights reserved
-*/
-import styled from '@emotion/styled';
+import styled from "@emotion/styled";
 interface Props {
   theme?: any;
   bgimage?: any;

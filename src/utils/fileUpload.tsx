@@ -1,8 +1,8 @@
 /*
-©2022 Pivotree | All rights reserved
+Event shuffle
 */
-import axios from 'axios';
-import { toggleSnackbar } from '../redux/root_actions';
+import axios from "axios";
+import { toggleSnackbar } from "../redux/root_actions";
 
 const completeFtpOperation = async (
   generateJsonInp: any,
@@ -53,8 +53,8 @@ const completeFtpOperation = async (
         dispatch(
           toggleSnackbar({
             isOpen: true,
-            message: 'Data creation failed',
-            severity: 'error',
+            message: "Data creation failed",
+            severity: "error",
             error: shellErrOutput,
           })
         );
@@ -64,8 +64,8 @@ const completeFtpOperation = async (
       dispatch(
         toggleSnackbar({
           isOpen: true,
-          message: 'Data creation failed',
-          severity: 'error',
+          message: "Data creation failed",
+          severity: "error",
           error: errorGenResp,
         })
       );

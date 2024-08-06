@@ -1,5 +1,5 @@
 /*
-©2022 Pivotree | All rights reserved
+Event shuffle
 */
 
 import { FaFileUpload } from "react-icons/fa";

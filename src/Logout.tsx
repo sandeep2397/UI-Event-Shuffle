@@ -1,14 +1,14 @@
 /*
-©2022 Pivotree | All rights reserved
+Event shuffle
 */
-import React, { FC } from 'react';
+import { FC } from "react";
 
 interface LogoutProps {
   children?: null;
 }
 
 const Logout: FC<LogoutProps> = (props) => {
-  return <div className='wrapper'>Logout from PAT</div>;
+  return <div className="wrapper">Logout from PAT</div>;
 };
 
 export default Logout;

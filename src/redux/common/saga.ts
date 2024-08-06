@@ -1,5 +1,5 @@
 /*
-©2022 Pivotree | All rights reserved
+Event shuffle
 */
 import { all, call, fork, put, takeEvery } from "redux-saga/effects";
 import { COMMON_ACTION } from "../../constants/actionTypes";

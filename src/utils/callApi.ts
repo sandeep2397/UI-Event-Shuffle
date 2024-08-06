@@ -1,6 +1,3 @@
-/*
-©2022 Pivotree | All rights reserved
-*/
 import { cloneDeep, isEmpty } from "lodash";
 
 export const callApi = (payload: any): Promise<any> => {

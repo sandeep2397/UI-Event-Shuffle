@@ -719,7 +719,8 @@ const Login: FC<Props> = (props) => {
         {/* <FooterLabel>
             {<FaRegCopyright  color='primary' fontSize={'small'} />}{' '}
           </FooterLabel>
-          <FooterLabel>{'2023 All rights reserved by Pivotree'} </FooterLabel> */}
+       
+          */}
       </div>
     </Box>
   );
