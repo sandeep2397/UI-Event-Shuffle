@@ -7,7 +7,7 @@ export const callApi = (payload: any): Promise<any> => {
   const { url, options = {} } = payload;
 
   // //This will allow the server to send and receive cookies,
-  options.credentials = "include";
+  // options.credentials = "include";
 
   if (
     options.method === "POST" ||

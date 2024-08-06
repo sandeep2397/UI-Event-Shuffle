@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   Card,
-  Chip,
   CircularProgress,
   Container,
   Divider,
@@ -36,13 +35,13 @@ import {
   ConfirmationResult,
   GoogleAuthProvider,
   RecaptchaVerifier,
-  signInWithEmailAndPassword,
   signInWithPhoneNumber,
   signInWithPopup,
 } from "firebase/auth";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/material.css";
 // import 'react-phone-input-2/lib/style.css';
+import axios from "axios";
 import OTPCapture from "./OTPCapture";
 import provider from "./authProvider";
 import { auth } from "./customFirebaseConfig";
@@ -113,6 +112,22 @@ const Login: FC<Props> = (props) => {
     });
   };
 
+  const loginAndGetToken = async () => {
+    try {
+      const response = await axios.post(
+        "https://event-shuffle-nodeserver-api.vercel.app/login",
+        {
+          username: state.username,
+          password: state.password,
+        }
+      );
+      return response.data.accessToken;
+    } catch (error) {
+      console.error("Error logging in:", error);
+      setInvalidCreds(true);
+    }
+  };
+
   const onFormSubmit = async (event: any) => {
     event.preventDefault();
     const cookies = new Cookies();
@@ -125,6 +140,9 @@ const Login: FC<Props> = (props) => {
         (user: any) =>
           user.userName === state.username && user.password === state.password
       );
+
+      // const token = await loginAndGetToken();
+
       if (loginResp) {
         let cookieData = {
           jwtToken: loginResp?.accessToken,
