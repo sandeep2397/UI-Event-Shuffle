@@ -4,11 +4,11 @@
 import { cloneDeep, isEmpty } from "lodash";
 
 export const callApi = (payload: any): Promise<any> => {
-  const { url, options = {} } = payload;
+  let { url, options = {} } = payload;
 
   // //This will allow the server to send and receive cookies,
   // options.credentials = "include";
-
+  url = `${process.env.REACT_APP_BACKEND_URL}${url}`;
   if (
     options.method === "POST" ||
     options.method === "PATCH" ||
