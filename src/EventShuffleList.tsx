@@ -2,7 +2,6 @@ import {
   Alert,
   Button,
   CardHeader,
-  CircularProgress,
   Container,
   Divider,
   Grid,
@@ -24,6 +23,7 @@ import InputBase from "@mui/material/InputBase";
 import Paper from "@mui/material/Paper";
 import { FaSearch, FaUpload } from "react-icons/fa";
 import { MdClose, MdHowToVote, MdPermMedia } from "react-icons/md";
+import ShimmerCard from "./components/Shimmer/ShimmerCard";
 import CreateEvent from "./CreateEvent";
 import EventDetails from "./EventDetails";
 import { EventShuffleDefCols, EventShuffleListPath } from "./EventShuffle";
@@ -66,6 +66,7 @@ const EventShuffleList: FC<Props> = (props: Props) => {
   const [editSingleMedia, setEditedSingleMedia] = useState<any>({});
 
   const [mediaLoading, setMediaLoading] = useState(false);
+
   // setMediaLoading(true)
 
   let initImageUrl = "";
@@ -316,7 +317,11 @@ const EventShuffleList: FC<Props> = (props: Props) => {
               <Divider />
               {mediaLoading ? (
                 <div style={{ padding: "16px" }}>
-                  <CircularProgress />
+                  <div className="card-container">
+                    {Array.from({ length: 3 }).map((_, index) => (
+                      <ShimmerCard key={index} isLoading={true} />
+                    ))}
+                  </div>
                 </div>
               ) : (
                 <>
